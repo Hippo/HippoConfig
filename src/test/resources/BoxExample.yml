@@ -1,0 +1,11 @@
+# In our unit test this config will only be deserialized
+
+vec1:
+  x: 0
+  y: 0
+  z: 0
+
+vec2:
+  x: 1
+  y: 1
+  z: 1
