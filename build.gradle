@@ -24,6 +24,7 @@
 
 plugins {
     id 'java'
+    id 'maven-publish'
 }
 
 group 'rip.hippo'
@@ -44,4 +45,15 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     implementation group: 'org.spigotmc', name: 'spigot-api', version: '1.8.8-R0.1-SNAPSHOT'
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = 'rip.hippo'
+            artifactId = 'HippoConfig'
+            version = '1.0.0'
+            from components.java
+        }
+    }
 }
