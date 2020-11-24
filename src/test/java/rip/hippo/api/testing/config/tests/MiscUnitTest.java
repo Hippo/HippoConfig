@@ -51,6 +51,8 @@ public final class MiscUnitTest extends UnitTest {
                 .map(world)
                 .save();
 
+
+
         World throwAway = new World("ThrowAway");
         configAdapterPool.getAdapter("WorldConfig")
                 .map(throwAway)

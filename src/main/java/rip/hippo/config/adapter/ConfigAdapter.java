@@ -58,8 +58,9 @@ public final class ConfigAdapter {
         if (mappable == null) {
             throw new IllegalStateException(String.format("Config adapter for file %s does not have a mappable object.", configFile.getAbsolutePath()));
         }
-        ensureFileConfiguration();
-        typeSerializationManager.getDeserializer(Mappable.class).deserialize(fileConfiguration, "", mappable);
+        if (ensureFileConfiguration()) {
+            typeSerializationManager.getDeserializer(Mappable.class).deserialize(fileConfiguration, "", mappable);
+        }
         return this;
     }
 
@@ -80,7 +81,7 @@ public final class ConfigAdapter {
         typeSerializationManager.getSerializer(Mappable.class).serialize(fileConfiguration, "", mappable);
     }
 
-    private void ensureFileConfiguration() {
+    private boolean ensureFileConfiguration() {
         try {
             File parentFile = configFile.getParentFile();
             if (parentFile != null && !parentFile.exists() && !parentFile.mkdirs()) {
@@ -88,10 +89,12 @@ public final class ConfigAdapter {
             }
             if ((!configFile.exists() && configFile.createNewFile()) || fileConfiguration == null) {
                 fileConfiguration = YamlConfiguration.loadConfiguration(configFile);
+                return false;
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return true;
     }
 
     public Mappable getMappable() {
