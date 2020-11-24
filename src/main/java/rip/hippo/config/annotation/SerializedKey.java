@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package rip.hippo.api.config.annotation;
+package rip.hippo.config.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -22,12 +22,12 @@
  * SOFTWARE.
  */
 
-package rip.hippo.api.config.adapter;
+package rip.hippo.config.adapter;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import rip.hippo.api.config.map.Mappable;
-import rip.hippo.api.config.serialization.manage.TypeSerializationManager;
+import rip.hippo.config.map.Mappable;
+import rip.hippo.config.serialization.manage.TypeSerializationManager;
 
 import java.io.File;
 import java.io.IOException;

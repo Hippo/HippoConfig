@@ -22,20 +22,16 @@
  * SOFTWARE.
  */
 
-package rip.hippo.api.config.serialization.impl.deserializers;
+package rip.hippo.config.serialization;
 
 import org.bukkit.configuration.file.FileConfiguration;
-import rip.hippo.api.config.serialization.ConfigDeserializer;
 
 /**
  * @author Hippo
- * @version 1.0.0, 9/10/20
+ * @version 1.0.0, 9/8/20
  * @since 1.0.0
  */
-public final class PrimitiveConfigDeserializer implements ConfigDeserializer<Object> {
-
-    @Override
-    public Object deserialize(FileConfiguration fileConfiguration, String key, Object instance) {
-        return fileConfiguration.get(key);
-    }
+@FunctionalInterface
+public interface ConfigSerializer {
+    void serialize(FileConfiguration fileConfiguration, String key, Object value);
 }

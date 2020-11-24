@@ -22,11 +22,20 @@
  * SOFTWARE.
  */
 
-package rip.hippo.api.config.map;
+package rip.hippo.config.serialization.impl.deserializers;
+
+import org.bukkit.configuration.file.FileConfiguration;
+import rip.hippo.config.serialization.ConfigDeserializer;
 
 /**
  * @author Hippo
- * @version 1.0.0, 9/8/20
+ * @version 1.0.0, 9/10/20
  * @since 1.0.0
  */
-public interface Mappable {}
+public final class PrimitiveConfigDeserializer implements ConfigDeserializer<Object> {
+
+    @Override
+    public Object deserialize(FileConfiguration fileConfiguration, String key, Object instance) {
+        return fileConfiguration.get(key);
+    }
+}

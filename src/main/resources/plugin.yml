@@ -1,0 +1,4 @@
+main: rip.hippo.config.HippoConfigPlugin
+name: HippoConfig
+version: 1.0.0
+author: Hippo

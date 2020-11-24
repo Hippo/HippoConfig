@@ -24,7 +24,7 @@
 
 package rip.hippo.api.testing.config.data;
 
-import rip.hippo.api.config.map.Mappable;
+import rip.hippo.config.map.Mappable;
 
 import java.util.LinkedList;
 import java.util.List;

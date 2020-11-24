@@ -22,16 +22,16 @@
  * SOFTWARE.
  */
 
-package rip.hippo.api.config.serialization.manage.impl;
+package rip.hippo.config.serialization.manage.impl;
 
-import rip.hippo.api.config.map.Mappable;
-import rip.hippo.api.config.serialization.ConfigDeserializer;
-import rip.hippo.api.config.serialization.ConfigSerializer;
-import rip.hippo.api.config.serialization.impl.deserializers.MappableConfigDeserializer;
-import rip.hippo.api.config.serialization.impl.deserializers.PrimitiveConfigDeserializer;
-import rip.hippo.api.config.serialization.manage.TypeSerializationManager;
-import rip.hippo.api.config.serialization.impl.serializers.MappableConfigSerializer;
-import rip.hippo.api.config.serialization.impl.serializers.PrimitiveConfigSerializer;
+import rip.hippo.config.map.Mappable;
+import rip.hippo.config.serialization.ConfigDeserializer;
+import rip.hippo.config.serialization.ConfigSerializer;
+import rip.hippo.config.serialization.impl.deserializers.MappableConfigDeserializer;
+import rip.hippo.config.serialization.impl.deserializers.PrimitiveConfigDeserializer;
+import rip.hippo.config.serialization.manage.TypeSerializationManager;
+import rip.hippo.config.serialization.impl.serializers.MappableConfigSerializer;
+import rip.hippo.config.serialization.impl.serializers.PrimitiveConfigSerializer;
 
 import java.util.HashMap;
 import java.util.Map;

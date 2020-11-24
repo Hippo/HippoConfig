@@ -22,18 +22,16 @@
  * SOFTWARE.
  */
 
-package rip.hippo.api.config.adapter.pool;
+package rip.hippo.config.serialization;
 
-import rip.hippo.api.config.map.Mappable;
-import rip.hippo.api.config.adapter.ConfigAdapter;
+import org.bukkit.configuration.file.FileConfiguration;
 
 /**
  * @author Hippo
  * @version 1.0.0, 9/9/20
  * @since 1.0.0
  */
-public interface ConfigAdapterPool {
-    void registerMappable(Class<? extends Mappable> mappableClass);
-    ConfigAdapter getAdapter(String... adapter);
-    Mappable getMappedConfig(String... config);
+public interface ConfigDeserializer<T> {
+
+    T deserialize(FileConfiguration fileConfiguration, String key, Object instance);
 }

@@ -22,14 +22,14 @@
  * SOFTWARE.
  */
 
-package rip.hippo.api.config.adapter.pool.impl;
+package rip.hippo.config.adapter.pool.impl;
 
 import org.bukkit.plugin.java.JavaPlugin;
-import rip.hippo.api.config.map.Mappable;
-import rip.hippo.api.config.adapter.ConfigAdapter;
-import rip.hippo.api.config.adapter.pool.ConfigAdapterPool;
-import rip.hippo.api.config.serialization.manage.TypeSerializationManager;
-import rip.hippo.api.config.serialization.manage.impl.StandardTypeSerializationManager;
+import rip.hippo.config.map.Mappable;
+import rip.hippo.config.adapter.ConfigAdapter;
+import rip.hippo.config.adapter.pool.ConfigAdapterPool;
+import rip.hippo.config.serialization.manage.TypeSerializationManager;
+import rip.hippo.config.serialization.manage.impl.StandardTypeSerializationManager;
 
 import java.io.File;
 import java.util.HashMap;

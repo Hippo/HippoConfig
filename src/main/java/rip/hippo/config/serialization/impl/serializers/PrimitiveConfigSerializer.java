@@ -22,10 +22,10 @@
  * SOFTWARE.
  */
 
-package rip.hippo.api.config.serialization.impl.serializers;
+package rip.hippo.config.serialization.impl.serializers;
 
 import org.bukkit.configuration.file.FileConfiguration;
-import rip.hippo.api.config.serialization.ConfigSerializer;
+import rip.hippo.config.serialization.ConfigSerializer;
 
 /**
  * @author Hippo

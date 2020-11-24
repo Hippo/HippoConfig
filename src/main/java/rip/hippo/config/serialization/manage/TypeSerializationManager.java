@@ -22,27 +22,21 @@
  * SOFTWARE.
  */
 
-package rip.hippo.api.config;
+package rip.hippo.config.serialization.manage;
 
-import org.bukkit.Bukkit;
-import org.bukkit.plugin.java.JavaPlugin;
-import rip.hippo.api.config.version.SemanticVersion;
+import rip.hippo.config.map.Mappable;
+import rip.hippo.config.serialization.ConfigDeserializer;
+import rip.hippo.config.serialization.ConfigSerializer;
 
 /**
  * @author Hippo
- * @version 1.0.0, 9/8/20
+ * @version 1.0.0, 9/9/20
  * @since 1.0.0
  */
-public final class HippoConfigPlugin extends JavaPlugin {
-
-    private static final SemanticVersion PLUGIN_VERSION = SemanticVersion
-            .builder()
-            .major(1)
-            .build();
-
-    @Override
-    public void onEnable() {
-        Bukkit.getLogger().info(String.format("Running Hippo Config version %s", PLUGIN_VERSION));
-        super.onEnable();
-    }
+public interface TypeSerializationManager {
+    void register(Class<?> type, ConfigSerializer configSerializer);
+    void register(Class<?> type, ConfigDeserializer<?> configDeserializer);
+    void registerMappable(Class<? extends Mappable> mappableClass);
+    ConfigSerializer getSerializer(Class<?> type);
+    ConfigDeserializer<?> getDeserializer(Class<?> type);
 }

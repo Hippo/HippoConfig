@@ -22,21 +22,11 @@
  * SOFTWARE.
  */
 
-package rip.hippo.api.config.serialization.manage;
-
-import rip.hippo.api.config.map.Mappable;
-import rip.hippo.api.config.serialization.ConfigDeserializer;
-import rip.hippo.api.config.serialization.ConfigSerializer;
+package rip.hippo.config.map;
 
 /**
  * @author Hippo
- * @version 1.0.0, 9/9/20
+ * @version 1.0.0, 9/8/20
  * @since 1.0.0
  */
-public interface TypeSerializationManager {
-    void register(Class<?> type, ConfigSerializer configSerializer);
-    void register(Class<?> type, ConfigDeserializer<?> configDeserializer);
-    void registerMappable(Class<? extends Mappable> mappableClass);
-    ConfigSerializer getSerializer(Class<?> type);
-    ConfigDeserializer<?> getDeserializer(Class<?> type);
-}
+public interface Mappable {}

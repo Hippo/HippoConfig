@@ -24,8 +24,8 @@
 
 package rip.hippo.api.testing.config.data;
 
-import rip.hippo.api.config.annotation.SerializedKey;
-import rip.hippo.api.config.map.Mappable;
+import rip.hippo.config.annotation.SerializedKey;
+import rip.hippo.config.map.Mappable;
 
 /**
  * @author Hippo

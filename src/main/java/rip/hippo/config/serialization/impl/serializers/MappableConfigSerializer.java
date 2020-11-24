@@ -22,14 +22,13 @@
  * SOFTWARE.
  */
 
-package rip.hippo.api.config.serialization.impl.deserializers;
+package rip.hippo.config.serialization.impl.serializers;
 
 import org.bukkit.configuration.file.FileConfiguration;
-import rip.hippo.api.config.annotation.SerializedKey;
-import rip.hippo.api.config.map.Mappable;
-import rip.hippo.api.config.serialization.ConfigDeserializer;
-import rip.hippo.api.config.serialization.ConfigSerializer;
-import rip.hippo.api.config.serialization.manage.TypeSerializationManager;
+import rip.hippo.config.annotation.SerializedKey;
+import rip.hippo.config.map.Mappable;
+import rip.hippo.config.serialization.ConfigSerializer;
+import rip.hippo.config.serialization.manage.TypeSerializationManager;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -39,24 +38,21 @@ import java.util.List;
 
 /**
  * @author Hippo
- * @version 1.0.0, 9/10/20
+ * @version 1.0.0, 9/8/20
  * @since 1.0.0
  */
-public final class MappableConfigDeserializer implements ConfigDeserializer<Mappable> {
+public final class MappableConfigSerializer implements ConfigSerializer {
 
     private final TypeSerializationManager typeSerializationManager;
 
-    public MappableConfigDeserializer(TypeSerializationManager typeSerializationManager) {
+    public MappableConfigSerializer(TypeSerializationManager typeSerializationManager) {
         this.typeSerializationManager = typeSerializationManager;
     }
 
     @Override
-    public Mappable deserialize(FileConfiguration fileConfiguration, String key, Object instance) {
-        if (!(instance instanceof Mappable)) {
-            throw new IllegalArgumentException(String.format("Tried to pass %s as a mappable object.", instance));
-        }
+    public void serialize(FileConfiguration fileConfiguration, String key, Object value) {
         List<Field> fields = new LinkedList<>();
-        Class<?> current = instance.getClass();
+        Class<?> current = value.getClass();
         while (Mappable.class.isAssignableFrom(current)) {
             fields.addAll(Arrays.asList(current.getDeclaredFields()));
             current = current.getSuperclass();
@@ -67,22 +63,19 @@ public final class MappableConfigDeserializer implements ConfigDeserializer<Mapp
                 if (Modifier.isTransient(field.getModifiers())) {
                     continue;
                 }
-
                 boolean accessible = field.isAccessible();
                 field.setAccessible(true);
 
 
                 SerializedKey serializedKey = field.getAnnotation(SerializedKey.class);
                 String keyField = serializedKey == null ? field.getName() : serializedKey.value();
-
-                ConfigDeserializer<?> deserializer = typeSerializationManager.getDeserializer(field.getType());
-                field.set(instance, deserializer.deserialize(fileConfiguration, (key.isEmpty() ? "" : key + ".") + keyField, field.get(instance)));
+                ConfigSerializer serializer = typeSerializationManager.getSerializer(field.getType());
+                serializer.serialize(fileConfiguration, (key.isEmpty() ? "" : key + ".") + keyField, field.get(value));
 
                 field.setAccessible(accessible);
             } catch (ReflectiveOperationException e) {
                 e.printStackTrace();
             }
         }
-        return ((Mappable) instance);
     }
 }

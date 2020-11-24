@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package rip.hippo.api.config.version;
+package rip.hippo.config.version;
 
 /**
  * @author Hippo

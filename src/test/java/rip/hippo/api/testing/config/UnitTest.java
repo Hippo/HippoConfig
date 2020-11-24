@@ -24,8 +24,8 @@
 
 package rip.hippo.api.testing.config;
 
-import rip.hippo.api.config.adapter.pool.ConfigAdapterPool;
-import rip.hippo.api.config.adapter.pool.impl.StandardConfigAdapterPool;
+import rip.hippo.config.adapter.pool.ConfigAdapterPool;
+import rip.hippo.config.adapter.pool.impl.StandardConfigAdapterPool;
 import rip.hippo.api.testing.config.data.*;
 
 import java.io.File;
