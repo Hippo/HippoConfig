@@ -1,0 +1,5 @@
+name: ConfigExample
+main: rip.hippo.example.config.ConfigExample
+version: 1.0.0
+depend:
+  - HippoConfig

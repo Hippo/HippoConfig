@@ -66,6 +66,11 @@ public final class MappableConfigDeserializer implements ConfigDeserializer<Mapp
                 if (Modifier.isTransient(field.getModifiers())) {
                     continue;
                 }
+                if (Modifier.isFinal(field.getModifiers())) {
+                    Field modifiers = Field.class.getDeclaredField("modifiers");
+                    modifiers.setAccessible(true);
+                    modifiers.setInt(field, field.getModifiers() & ~Modifier.FINAL);
+                }
 
                 boolean accessible = field.isAccessible();
                 field.setAccessible(true);

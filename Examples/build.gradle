@@ -1,0 +1,27 @@
+plugins {
+    id 'java'
+}
+
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'https://jitpack.io'
+    }
+    maven {
+        url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/"
+    }
+
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots/"
+    }
+}
+
+dependencies {
+    implementation group: 'com.github.Hippo', name: 'HippoConfig', version: '1.0.1'
+    implementation group: 'org.spigotmc', name: 'spigot-api', version: '1.8.8-R0.1-SNAPSHOT'
+}
+
+test {
+    useJUnitPlatform()
+}
