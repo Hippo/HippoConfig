@@ -38,7 +38,7 @@ public final class HippoConfigPlugin extends JavaPlugin {
     private static final SemanticVersion PLUGIN_VERSION = SemanticVersion
             .builder()
             .major(1)
-            .minor(1)
+            .minor(4)
             .build();
 
     @Override
