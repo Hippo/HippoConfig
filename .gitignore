@@ -1,7 +1,6 @@
 # Gradle
 .gradle/
 build/
-gradle/
 Examples/build
 
 # IDEA
