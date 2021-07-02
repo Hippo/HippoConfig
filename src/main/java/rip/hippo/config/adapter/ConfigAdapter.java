@@ -40,7 +40,7 @@ import java.util.List;
 
 /**
  * @author Hippo
- * @version 1.0.2, 9/8/20
+ * @version 1.0.3, 9/8/20
  * @since 1.0.0
  */
 public final class ConfigAdapter {
@@ -73,7 +73,7 @@ public final class ConfigAdapter {
             }
 
             for (Field field : fields) {
-                if (!field.getType().isPrimitive()) {
+                if (Mappable.class.isAssignableFrom(field.getType()) && !Modifier.isInterface(field.getModifiers())) {
                     if (!field.isAccessible()) {
                         field.setAccessible(true);
                     }
