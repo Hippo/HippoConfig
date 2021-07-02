@@ -32,7 +32,7 @@ import rip.hippo.api.testing.config.data.Vector;
 
 /**
  * @author Hippo
- * @version 1.0.0, 9/9/20
+ * @version 2.0.0, 9/9/20
  * @since 1.0.0
  */
 public final class SerializationUnitTest extends UnitTest {
@@ -42,7 +42,8 @@ public final class SerializationUnitTest extends UnitTest {
         Box box = new Box(new Vector(69, 69, 69), new Vector(420, 420, 420));
 
         configAdapterPool.getAdapter("NewBox")
-        .map(box)
-        .save();
+                .header("Cool header test")
+                .map(box)
+                .save();
     }
 }

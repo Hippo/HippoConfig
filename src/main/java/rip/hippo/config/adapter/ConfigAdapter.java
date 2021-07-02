@@ -34,7 +34,7 @@ import java.io.IOException;
 
 /**
  * @author Hippo
- * @version 1.0.0, 9/8/20
+ * @version 1.0.1, 9/8/20
  * @since 1.0.0
  */
 public final class ConfigAdapter {
@@ -42,6 +42,7 @@ public final class ConfigAdapter {
     private final File configFile;
     private final TypeSerializationManager typeSerializationManager;
     private FileConfiguration fileConfiguration;
+    private String header;
     private Mappable mappable;
 
     public ConfigAdapter(File configFile, TypeSerializationManager typeSerializationManager) {
@@ -51,6 +52,11 @@ public final class ConfigAdapter {
 
     public ConfigAdapter map(Mappable mappable) {
         this.mappable = mappable;
+        return this;
+    }
+
+    public ConfigAdapter header(String header) {
+        this.header = header;
         return this;
     }
 
@@ -66,6 +72,7 @@ public final class ConfigAdapter {
 
     public void save() {
         serialize();
+        fileConfiguration.options().header(header);
         try {
             fileConfiguration.save(configFile);
         } catch (IOException e) {
