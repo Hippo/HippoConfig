@@ -1,5 +1,5 @@
 # Hippo Config
-A lightweight object oriented conifg system for spigot plugins.
+A lightweight object-oriented config system for spigot plugins.
 
 # Add Hippo Config
 ```groovy
@@ -12,7 +12,7 @@ repositories {
 
 ```groovy
 dependencies {
-    implementation group: 'com.github.Hippo', name: 'HippoConfig', version: '1.0.4'
+    implementation group: 'com.github.Hippo', name: 'HippoConfig', version: '1.0.5'
 }
 ```
 
