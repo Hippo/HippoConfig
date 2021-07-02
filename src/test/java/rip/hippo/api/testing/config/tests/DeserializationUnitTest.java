@@ -30,7 +30,7 @@ import rip.hippo.api.testing.config.data.Box;
 
 /**
  * @author Hippo
- * @version 1.0.0, 9/11/20
+ * @version 1.0.1, 9/11/20
  * @since 1.0.0
  */
 public final class DeserializationUnitTest extends UnitTest {
@@ -43,6 +43,16 @@ public final class DeserializationUnitTest extends UnitTest {
         configAdapterPool.getAdapter("BoxExample")
                 .map(box)
                 .update();
+
+        System.out.println(box);
+    }
+
+    @Test
+    public void boxTestNoObject() {
+        Box box = configAdapterPool.getAdapter("BoxExample")
+                .map(Box.class)
+                .update()
+                .getMappable(Box.class);
 
         System.out.println(box);
     }

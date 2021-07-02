@@ -28,13 +28,19 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import rip.hippo.config.map.Mappable;
 import rip.hippo.config.serialization.manage.TypeSerializationManager;
+import rip.hippo.config.unsafe.Unsafe;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author Hippo
- * @version 1.0.1, 9/8/20
+ * @version 1.0.2, 9/8/20
  * @since 1.0.0
  */
 public final class ConfigAdapter {
@@ -52,6 +58,31 @@ public final class ConfigAdapter {
 
     public ConfigAdapter map(Mappable mappable) {
         this.mappable = mappable;
+        return this;
+    }
+
+    public ConfigAdapter map(Class<? extends Mappable> mappableClass) {
+        try {
+            this.mappable = (Mappable) Unsafe.getUnsafe().allocateInstance(mappableClass);
+
+            List<Field> fields = new LinkedList<>();
+            Class<?> current = mappable.getClass();
+            while (Mappable.class.isAssignableFrom(current)) {
+                fields.addAll(Arrays.asList(current.getDeclaredFields()));
+                current = current.getSuperclass();
+            }
+
+            for (Field field : fields) {
+                if (!field.getType().isPrimitive()) {
+                    if (!field.isAccessible()) {
+                        field.setAccessible(true);
+                    }
+                    field.set(Modifier.isStatic(field.getModifiers()) ? null : mappable, Unsafe.getUnsafe().allocateInstance(field.getType()));
+                }
+            }
+        } catch (ReflectiveOperationException e) {
+            e.printStackTrace();
+        }
         return this;
     }
 
@@ -94,9 +125,10 @@ public final class ConfigAdapter {
             if (parentFile != null && !parentFile.exists() && !parentFile.mkdirs()) {
                 throw new SecurityException(String.format("Unable to make directory %s (no permission?)", parentFile.getAbsolutePath()));
             }
-            if ((!configFile.exists() && configFile.createNewFile()) || fileConfiguration == null) {
+            boolean exists = configFile.exists();
+            if ((!exists && configFile.createNewFile()) || fileConfiguration == null) {
                 fileConfiguration = YamlConfiguration.loadConfiguration(configFile);
-                return false;
+                return exists;
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -109,5 +141,9 @@ public final class ConfigAdapter {
             throw new IllegalStateException(String.format("Config adapter for file %s does not have a mappable object.", configFile.getAbsolutePath()));
         }
         return mappable;
+    }
+
+    public <T extends Mappable> T getMappable(Class<T> actual) {
+        return actual.cast(getMappable());
     }
 }

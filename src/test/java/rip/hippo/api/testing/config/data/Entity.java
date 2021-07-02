@@ -28,32 +28,16 @@ import rip.hippo.config.map.Mappable;
 
 /**
  * @author Hippo
- * @version 1.0.0, 9/11/20
+ * @version 1.0.1, 9/11/20
  * @since 1.0.0
  */
 public class Entity implements Mappable {
 
-    private String name;
-    private Vector location;
+    private final String name;
+    private final Vector location;
 
     public Entity(String name, Vector location) {
         this.name = name;
-        this.location = location;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Vector getLocation() {
-        return location;
-    }
-
-    public void setLocation(Vector location) {
         this.location = location;
     }
 }
