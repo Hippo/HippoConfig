@@ -12,7 +12,7 @@ repositories {
 
 ```groovy
 dependencies {
-    implementation group: 'com.github.Hippo', name: 'HippoConfig', version: '1.0.3'
+    implementation group: 'com.github.Hippo', name: 'HippoConfig', version: '1.0.4'
 }
 ```
 
