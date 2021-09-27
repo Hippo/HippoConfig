@@ -31,21 +31,22 @@ package rip.hippo.api.testing.config.data;
  */
 public final class HippoEntity extends Entity {
 
-    private int watermelonsAte;
+  private int watermelonsAte;
 
-    public HippoEntity() {
-        this("Hippo", new Vector(), 0);
-    }
-    public HippoEntity(String name, Vector location, int watermelonsAte) {
-        super(name, location);
-        this.watermelonsAte = watermelonsAte;
-    }
+  public HippoEntity() {
+    this("Hippo", new Vector(), 0);
+  }
 
-    public int getWatermelonsAte() {
-        return watermelonsAte;
-    }
+  public HippoEntity(String name, Vector location, int watermelonsAte) {
+    super(name, location);
+    this.watermelonsAte = watermelonsAte;
+  }
 
-    public void setWatermelonsAte(int watermelonsAte) {
-        this.watermelonsAte = watermelonsAte;
-    }
+  public int getWatermelonsAte() {
+    return watermelonsAte;
+  }
+
+  public void setWatermelonsAte(int watermelonsAte) {
+    this.watermelonsAte = watermelonsAte;
+  }
 }

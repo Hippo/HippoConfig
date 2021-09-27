@@ -33,5 +33,5 @@ import org.bukkit.configuration.file.FileConfiguration;
  */
 @FunctionalInterface
 public interface ConfigSerializer {
-    void serialize(FileConfiguration fileConfiguration, String key, Object value);
+  void serialize(FileConfiguration fileConfiguration, String key, Object value);
 }

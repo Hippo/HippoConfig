@@ -25,9 +25,9 @@
 package rip.hippo.config.adapter.pool.impl;
 
 import org.bukkit.plugin.java.JavaPlugin;
-import rip.hippo.config.map.Mappable;
 import rip.hippo.config.adapter.ConfigAdapter;
 import rip.hippo.config.adapter.pool.ConfigAdapterPool;
+import rip.hippo.config.map.Mappable;
 import rip.hippo.config.serialization.manage.TypeSerializationManager;
 import rip.hippo.config.serialization.manage.impl.StandardTypeSerializationManager;
 
@@ -42,52 +42,52 @@ import java.util.Map;
  */
 public final class StandardConfigAdapterPool implements ConfigAdapterPool {
 
-    private final File parentDirectory;
-    private final TypeSerializationManager typeSerializationManager;
-    private final Map<String, ConfigAdapter> configAdapterPool;
+  private final File parentDirectory;
+  private final TypeSerializationManager typeSerializationManager;
+  private final Map<String, ConfigAdapter> configAdapterPool;
 
-    public StandardConfigAdapterPool(JavaPlugin plugin) {
-        this(plugin.getDataFolder());
+  public StandardConfigAdapterPool(JavaPlugin plugin) {
+    this(plugin.getDataFolder());
+  }
+
+  public StandardConfigAdapterPool(File parentDirectory) {
+    this(parentDirectory, new StandardTypeSerializationManager());
+  }
+
+  public StandardConfigAdapterPool(File parentDirectory, TypeSerializationManager typeSerializationManager) {
+    if (!parentDirectory.exists() && !parentDirectory.mkdirs()) {
+      throw new SecurityException(String.format("Unable to make directory %s (no permission?)", parentDirectory.getAbsolutePath()));
     }
+    this.parentDirectory = parentDirectory;
+    this.typeSerializationManager = typeSerializationManager;
+    this.configAdapterPool = new HashMap<>();
+  }
 
-    public StandardConfigAdapterPool(File parentDirectory) {
-        this(parentDirectory, new StandardTypeSerializationManager());
+  @Override
+  public void registerMappable(Class<? extends Mappable> mappableClass) {
+    typeSerializationManager.registerMappable(mappableClass);
+  }
+
+  @Override
+  public ConfigAdapter getAdapter(String... adapter) {
+    String path = transformPath(adapter);
+    return configAdapterPool.computeIfAbsent(path, ignored -> new ConfigAdapter(new File(parentDirectory, path), typeSerializationManager));
+  }
+
+  @Override
+  public Mappable getMappedConfig(String... config) {
+    return getAdapter(config).getMappable();
+  }
+
+  private String transformPath(String... path) {
+    StringBuilder stringBuilder = new StringBuilder();
+    for (String segment : path) {
+      stringBuilder.append(segment).append(File.separator);
     }
+    stringBuilder.deleteCharAt(stringBuilder.length() - 1);
 
-    public StandardConfigAdapterPool(File parentDirectory, TypeSerializationManager typeSerializationManager) {
-        if (!parentDirectory.exists() && !parentDirectory.mkdirs()) {
-            throw new SecurityException(String.format("Unable to make directory %s (no permission?)", parentDirectory.getAbsolutePath()));
-        }
-        this.parentDirectory = parentDirectory;
-        this.typeSerializationManager = typeSerializationManager;
-        this.configAdapterPool = new HashMap<>();
-    }
+    String builtPath = stringBuilder.toString();
 
-    @Override
-    public void registerMappable(Class<? extends Mappable> mappableClass) {
-        typeSerializationManager.registerMappable(mappableClass);
-    }
-
-    @Override
-    public ConfigAdapter getAdapter(String... adapter) {
-        String path = transformPath(adapter);
-        return configAdapterPool.computeIfAbsent(path, ignored -> new ConfigAdapter(new File(parentDirectory, path), typeSerializationManager));
-    }
-
-    @Override
-    public Mappable getMappedConfig(String... config) {
-        return getAdapter(config).getMappable();
-    }
-
-    private String transformPath(String... path) {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (String segment : path) {
-            stringBuilder.append(segment).append(File.separator);
-        }
-        stringBuilder.deleteCharAt(stringBuilder.length() - 1);
-
-        String builtPath = stringBuilder.toString();
-
-        return builtPath + (builtPath.toLowerCase().endsWith(".yml") ? "" : ".yml");
-    }
+    return builtPath + (builtPath.toLowerCase().endsWith(".yml") ? "" : ".yml");
+  }
 }

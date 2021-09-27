@@ -36,31 +36,31 @@ import java.util.List;
  */
 public final class World implements Mappable {
 
-    private String name;
-    private List<org.bukkit.util.Vector> positions;
+  private String name;
+  private List<org.bukkit.util.Vector> positions;
 
-    public World(String name) {
-        this.name = name;
-        this.positions = new LinkedList<>();
-    }
+  public World(String name) {
+    this.name = name;
+    this.positions = new LinkedList<>();
+  }
 
-    public String getName() {
-        return name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public List<org.bukkit.util.Vector> getPositions() {
-        return positions;
-    }
+  public List<org.bukkit.util.Vector> getPositions() {
+    return positions;
+  }
 
-    @Override
-    public String toString() {
-        return "World{" +
-                "name='" + name + '\'' +
-                ", positions=" + positions +
-                '}';
-    }
+  @Override
+  public String toString() {
+    return "World{" +
+        "name='" + name + '\'' +
+        ", positions=" + positions +
+        '}';
+  }
 }

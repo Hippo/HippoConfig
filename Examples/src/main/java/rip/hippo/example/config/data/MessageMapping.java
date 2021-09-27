@@ -9,13 +9,13 @@ import rip.hippo.config.map.Mappable;
  */
 public final class MessageMapping implements Mappable {
 
-    private String lastJoined = "You are the first player";
+  private String lastJoined = "You are the first player";
 
-    public void setLastJoined(String lastJoined) {
-        this.lastJoined = lastJoined;
-    }
+  public String getLastJoined() {
+    return lastJoined;
+  }
 
-    public String getLastJoined() {
-        return lastJoined;
-    }
+  public void setLastJoined(String lastJoined) {
+    this.lastJoined = lastJoined;
+  }
 }

@@ -22,6 +22,6 @@
  * SOFTWARE.
  */
 
-rootProject.name = 'HippoConfig'
-include 'Examples'
+rootProject.name = "HippoConfig"
+include("Examples")
 

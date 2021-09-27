@@ -29,9 +29,9 @@ import rip.hippo.config.serialization.ConfigDeserializer;
 import rip.hippo.config.serialization.ConfigSerializer;
 import rip.hippo.config.serialization.impl.deserializers.MappableConfigDeserializer;
 import rip.hippo.config.serialization.impl.deserializers.PrimitiveConfigDeserializer;
-import rip.hippo.config.serialization.manage.TypeSerializationManager;
 import rip.hippo.config.serialization.impl.serializers.MappableConfigSerializer;
 import rip.hippo.config.serialization.impl.serializers.PrimitiveConfigSerializer;
+import rip.hippo.config.serialization.manage.TypeSerializationManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,47 +43,47 @@ import java.util.Map;
  */
 public final class StandardTypeSerializationManager implements TypeSerializationManager {
 
-    private final Map<Class<?>, ConfigSerializer> typeSerializerMap;
-    private final Map<Class<?>, ConfigDeserializer<?>> typeDeserializerMap;
+  private final Map<Class<?>, ConfigSerializer> typeSerializerMap;
+  private final Map<Class<?>, ConfigDeserializer<?>> typeDeserializerMap;
 
-    private final ConfigSerializer primitiveConfigSerializer, mappableConfigSerializer;
-    private final ConfigDeserializer<?> primitiveConfigDeserializer, mappableConfigDeserializer;
+  private final ConfigSerializer primitiveConfigSerializer, mappableConfigSerializer;
+  private final ConfigDeserializer<?> primitiveConfigDeserializer, mappableConfigDeserializer;
 
-    public StandardTypeSerializationManager() {
-        this.typeSerializerMap = new HashMap<>();
-        this.typeDeserializerMap = new HashMap<>();
-        this.primitiveConfigSerializer = new PrimitiveConfigSerializer();
-        this.mappableConfigSerializer = new MappableConfigSerializer(this);
-        this.primitiveConfigDeserializer = new PrimitiveConfigDeserializer();
-        this.mappableConfigDeserializer = new MappableConfigDeserializer(this);
+  public StandardTypeSerializationManager() {
+    this.typeSerializerMap = new HashMap<>();
+    this.typeDeserializerMap = new HashMap<>();
+    this.primitiveConfigSerializer = new PrimitiveConfigSerializer();
+    this.mappableConfigSerializer = new MappableConfigSerializer(this);
+    this.primitiveConfigDeserializer = new PrimitiveConfigDeserializer();
+    this.mappableConfigDeserializer = new MappableConfigDeserializer(this);
 
-        this.typeSerializerMap.put(Mappable.class, mappableConfigSerializer);
-        this.typeDeserializerMap.put(Mappable.class, mappableConfigDeserializer);
-    }
+    this.typeSerializerMap.put(Mappable.class, mappableConfigSerializer);
+    this.typeDeserializerMap.put(Mappable.class, mappableConfigDeserializer);
+  }
 
-    @Override
-    public void register(Class<?> type, ConfigSerializer configSerializer) {
-        typeSerializerMap.put(type, configSerializer);
-    }
+  @Override
+  public void register(Class<?> type, ConfigSerializer configSerializer) {
+    typeSerializerMap.put(type, configSerializer);
+  }
 
-    @Override
-    public void register(Class<?> type, ConfigDeserializer<?> configDeserializer) {
-        typeDeserializerMap.put(type, configDeserializer);
-    }
+  @Override
+  public void register(Class<?> type, ConfigDeserializer<?> configDeserializer) {
+    typeDeserializerMap.put(type, configDeserializer);
+  }
 
-    @Override
-    public void registerMappable(Class<? extends Mappable> mappableClass) {
-        typeSerializerMap.put(mappableClass, mappableConfigSerializer);
-        typeDeserializerMap.put(mappableClass, mappableConfigDeserializer);
-    }
+  @Override
+  public void registerMappable(Class<? extends Mappable> mappableClass) {
+    typeSerializerMap.put(mappableClass, mappableConfigSerializer);
+    typeDeserializerMap.put(mappableClass, mappableConfigDeserializer);
+  }
 
-    @Override
-    public ConfigSerializer getSerializer(Class<?> type) {
-        return typeSerializerMap.getOrDefault(type, primitiveConfigSerializer);
-    }
+  @Override
+  public ConfigSerializer getSerializer(Class<?> type) {
+    return typeSerializerMap.getOrDefault(type, primitiveConfigSerializer);
+  }
 
-    @Override
-    public ConfigDeserializer<?> getDeserializer(Class<?> type) {
-        return typeDeserializerMap.getOrDefault(type, primitiveConfigDeserializer);
-    }
+  @Override
+  public ConfigDeserializer<?> getDeserializer(Class<?> type) {
+    return typeDeserializerMap.getOrDefault(type, primitiveConfigDeserializer);
+  }
 }

@@ -24,8 +24,8 @@
 
 package rip.hippo.config.adapter.pool;
 
-import rip.hippo.config.map.Mappable;
 import rip.hippo.config.adapter.ConfigAdapter;
+import rip.hippo.config.map.Mappable;
 
 /**
  * @author Hippo
@@ -33,7 +33,9 @@ import rip.hippo.config.adapter.ConfigAdapter;
  * @since 1.0.0
  */
 public interface ConfigAdapterPool {
-    void registerMappable(Class<? extends Mappable> mappableClass);
-    ConfigAdapter getAdapter(String... adapter);
-    Mappable getMappedConfig(String... config);
+  void registerMappable(Class<? extends Mappable> mappableClass);
+
+  ConfigAdapter getAdapter(String... adapter);
+
+  Mappable getMappedConfig(String... config);
 }

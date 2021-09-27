@@ -37,13 +37,13 @@ import rip.hippo.api.testing.config.data.Vector;
  */
 public final class SerializationUnitTest extends UnitTest {
 
-    @Test
-    public void boxTest() {
-        Box box = new Box(new Vector(69, 69, 69), new Vector(420, 420, 420));
+  @Test
+  public void boxTest() {
+    Box box = new Box(new Vector(69, 69, 69), new Vector(420, 420, 420));
 
-        configAdapterPool.getAdapter("NewBox")
-                .header("Cool header test")
-                .map(box)
-                .save();
-    }
+    configAdapterPool.getAdapter("NewBox")
+        .header("Cool header test")
+        .map(box)
+        .save();
+  }
 }

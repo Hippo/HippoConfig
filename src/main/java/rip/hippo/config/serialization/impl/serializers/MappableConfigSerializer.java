@@ -43,39 +43,39 @@ import java.util.List;
  */
 public final class MappableConfigSerializer implements ConfigSerializer {
 
-    private final TypeSerializationManager typeSerializationManager;
+  private final TypeSerializationManager typeSerializationManager;
 
-    public MappableConfigSerializer(TypeSerializationManager typeSerializationManager) {
-        this.typeSerializationManager = typeSerializationManager;
+  public MappableConfigSerializer(TypeSerializationManager typeSerializationManager) {
+    this.typeSerializationManager = typeSerializationManager;
+  }
+
+  @Override
+  public void serialize(FileConfiguration fileConfiguration, String key, Object value) {
+    List<Field> fields = new LinkedList<>();
+    Class<?> current = value.getClass();
+    while (Mappable.class.isAssignableFrom(current)) {
+      fields.addAll(Arrays.asList(current.getDeclaredFields()));
+      current = current.getSuperclass();
     }
 
-    @Override
-    public void serialize(FileConfiguration fileConfiguration, String key, Object value) {
-        List<Field> fields = new LinkedList<>();
-        Class<?> current = value.getClass();
-        while (Mappable.class.isAssignableFrom(current)) {
-            fields.addAll(Arrays.asList(current.getDeclaredFields()));
-            current = current.getSuperclass();
+    for (Field field : fields) {
+      try {
+        if (Modifier.isTransient(field.getModifiers())) {
+          continue;
         }
-
-        for (Field field : fields) {
-            try {
-                if (Modifier.isTransient(field.getModifiers())) {
-                    continue;
-                }
-                boolean accessible = field.isAccessible();
-                field.setAccessible(true);
+        boolean accessible = field.isAccessible();
+        field.setAccessible(true);
 
 
-                SerializedKey serializedKey = field.getAnnotation(SerializedKey.class);
-                String keyField = serializedKey == null ? field.getName() : serializedKey.value();
-                ConfigSerializer serializer = typeSerializationManager.getSerializer(field.getType());
-                serializer.serialize(fileConfiguration, (key.isEmpty() ? "" : key + ".") + keyField, field.get(value));
+        SerializedKey serializedKey = field.getAnnotation(SerializedKey.class);
+        String keyField = serializedKey == null ? field.getName() : serializedKey.value();
+        ConfigSerializer serializer = typeSerializationManager.getSerializer(field.getType());
+        serializer.serialize(fileConfiguration, (key.isEmpty() ? "" : key + ".") + keyField, field.get(value));
 
-                field.setAccessible(accessible);
-            } catch (ReflectiveOperationException e) {
-                e.printStackTrace();
-            }
-        }
+        field.setAccessible(accessible);
+      } catch (ReflectiveOperationException e) {
+        e.printStackTrace();
+      }
     }
+  }
 }

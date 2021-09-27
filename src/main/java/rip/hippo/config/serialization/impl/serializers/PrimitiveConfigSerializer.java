@@ -34,8 +34,8 @@ import rip.hippo.config.serialization.ConfigSerializer;
  */
 public final class PrimitiveConfigSerializer implements ConfigSerializer {
 
-    @Override
-    public void serialize(FileConfiguration fileConfiguration, String key, Object value) {
-        fileConfiguration.set(key, value);
-    }
+  @Override
+  public void serialize(FileConfiguration fileConfiguration, String key, Object value) {
+    fileConfiguration.set(key, value);
+  }
 }

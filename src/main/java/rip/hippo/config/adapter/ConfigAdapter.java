@@ -45,105 +45,113 @@ import java.util.List;
  */
 public final class ConfigAdapter {
 
-    private final File configFile;
-    private final TypeSerializationManager typeSerializationManager;
-    private FileConfiguration fileConfiguration;
-    private String header;
-    private Mappable mappable;
+  private final File configFile;
+  private final TypeSerializationManager typeSerializationManager;
+  private FileConfiguration fileConfiguration;
+  private String header;
+  private Mappable mappable;
 
-    public ConfigAdapter(File configFile, TypeSerializationManager typeSerializationManager) {
-        this.configFile = configFile;
-        this.typeSerializationManager = typeSerializationManager;
-    }
+  public ConfigAdapter(File configFile, TypeSerializationManager typeSerializationManager) {
+    this.configFile = configFile;
+    this.typeSerializationManager = typeSerializationManager;
+  }
 
-    public ConfigAdapter map(Mappable mappable) {
-        this.mappable = mappable;
-        return this;
-    }
+  public ConfigAdapter map(Mappable mappable) {
+    this.mappable = mappable;
+    return this;
+  }
 
-    public ConfigAdapter map(Class<? extends Mappable> mappableClass) {
-        try {
-            this.mappable = (Mappable) Unsafe.getUnsafe().allocateInstance(mappableClass);
+  public ConfigAdapter map(Class<? extends Mappable> mappableClass) {
+    try {
+      this.mappable = (Mappable) Unsafe.getUnsafe().allocateInstance(mappableClass);
 
-            List<Field> fields = new LinkedList<>();
-            Class<?> current = mappable.getClass();
-            while (Mappable.class.isAssignableFrom(current)) {
-                fields.addAll(Arrays.asList(current.getDeclaredFields()));
-                current = current.getSuperclass();
-            }
+      List<Field> fields = new LinkedList<>();
+      Class<?> current = mappable.getClass();
+      while (Mappable.class.isAssignableFrom(current)) {
+        fields.addAll(Arrays.asList(current.getDeclaredFields()));
+        current = current.getSuperclass();
+      }
 
-            for (Field field : fields) {
-                if (Mappable.class.isAssignableFrom(field.getType()) && !Modifier.isInterface(field.getModifiers())) {
-                    if (!field.isAccessible()) {
-                        field.setAccessible(true);
-                    }
-                    field.set(Modifier.isStatic(field.getModifiers()) ? null : mappable, Unsafe.getUnsafe().allocateInstance(field.getType()));
-                }
-            }
-        } catch (ReflectiveOperationException e) {
-            e.printStackTrace();
+      for (Field field : fields) {
+        if (Mappable.class.isAssignableFrom(field.getType()) && !Modifier.isInterface(field.getModifiers())) {
+          if (!field.isAccessible()) {
+            field.setAccessible(true);
+          }
+          field.set(Modifier.isStatic(field.getModifiers()) ? null : mappable, Unsafe.getUnsafe().allocateInstance(field.getType()));
         }
-        return this;
+      }
+    } catch (ReflectiveOperationException e) {
+      e.printStackTrace();
     }
+    return this;
+  }
 
-    public ConfigAdapter header(String header) {
-        this.header = header;
-        return this;
-    }
+  public ConfigAdapter header(String header) {
+    this.header = header;
+    return this;
+  }
 
-    public ConfigAdapter update() {
-        if (mappable == null) {
-            throw new IllegalStateException(String.format("Config adapter for file %s does not have a mappable object.", configFile.getAbsolutePath()));
-        }
-        if (ensureFileConfiguration()) {
-            typeSerializationManager.getDeserializer(Mappable.class).deserialize(fileConfiguration, "", mappable);
-        }
-        return this;
+  public ConfigAdapter update() {
+    if (mappable == null) {
+      throw new IllegalStateException(String.format("Config adapter for file %s does not have a mappable object.", configFile.getAbsolutePath()));
     }
+    if (ensureFileConfiguration()) {
+      typeSerializationManager.getDeserializer(Mappable.class).deserialize(fileConfiguration, "", mappable);
+    }
+    return this;
+  }
 
-    public void save() {
-        serialize();
-        fileConfiguration.options().header(header);
-        try {
-            fileConfiguration.save(configFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+  public void save() {
+    serialize();
+    fileConfiguration.options().header(header);
+    try {
+      fileConfiguration.save(configFile);
+    } catch (IOException e) {
+      e.printStackTrace();
     }
+  }
 
-    private void serialize() {
-        if (mappable == null) {
-            throw new IllegalStateException(String.format("Config adapter for file %s does not have a mappable object.", configFile.getAbsolutePath()));
-        }
-        ensureFileConfiguration();
-        typeSerializationManager.getSerializer(Mappable.class).serialize(fileConfiguration, "", mappable);
+  private void serialize() {
+    if (mappable == null) {
+      throw new IllegalStateException(String.format("Config adapter for file %s does not have a mappable object.", configFile.getAbsolutePath()));
     }
+    ensureFileConfiguration();
+    typeSerializationManager.getSerializer(Mappable.class).serialize(fileConfiguration, "", mappable);
+  }
 
-    private boolean ensureFileConfiguration() {
-        try {
-            File parentFile = configFile.getParentFile();
-            if (parentFile != null && !parentFile.exists() && !parentFile.mkdirs()) {
-                throw new SecurityException(String.format("Unable to make directory %s (no permission?)", parentFile.getAbsolutePath()));
-            }
-            boolean exists = configFile.exists();
-            if ((!exists && configFile.createNewFile()) || fileConfiguration == null) {
-                fileConfiguration = YamlConfiguration.loadConfiguration(configFile);
-                return exists;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return true;
+  private boolean ensureFileConfiguration() {
+    try {
+      File parentFile = configFile.getParentFile();
+      if (parentFile != null && !parentFile.exists() && !parentFile.mkdirs()) {
+        throw new SecurityException(String.format("Unable to make directory %s (no permission?)", parentFile.getAbsolutePath()));
+      }
+      boolean exists = configFile.exists();
+      if ((!exists && configFile.createNewFile()) || fileConfiguration == null) {
+        fileConfiguration = YamlConfiguration.loadConfiguration(configFile);
+        return exists;
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
     }
+    return true;
+  }
 
-    public Mappable getMappable() {
-        if (mappable == null) {
-            throw new IllegalStateException(String.format("Config adapter for file %s does not have a mappable object.", configFile.getAbsolutePath()));
-        }
-        return mappable;
+  public Mappable getMappable() {
+    if (mappable == null) {
+      throw new IllegalStateException(String.format("Config adapter for file %s does not have a mappable object.", configFile.getAbsolutePath()));
     }
+    return mappable;
+  }
 
-    public <T extends Mappable> T getMappable(Class<T> actual) {
-        return actual.cast(getMappable());
-    }
+  public <T extends Mappable> T getMappable(Class<T> actual) {
+    return actual.cast(getMappable());
+  }
+
+  public boolean exists() {
+    return configFile.exists();
+  }
+
+  public boolean empty() {
+    return !configFile.exists();
+  }
 }

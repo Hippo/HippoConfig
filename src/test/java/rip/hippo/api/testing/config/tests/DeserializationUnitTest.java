@@ -35,26 +35,26 @@ import rip.hippo.api.testing.config.data.Box;
  */
 public final class DeserializationUnitTest extends UnitTest {
 
-    @Test
-    public void boxTest() {
-        Box box = new Box();
-        System.out.println(box);
+  @Test
+  public void boxTest() {
+    Box box = new Box();
+    System.out.println(box);
 
-        configAdapterPool.getAdapter("BoxExample")
-                .map(box)
-                .update();
+    configAdapterPool.getAdapter("BoxExample")
+        .map(box)
+        .update();
 
-        System.out.println(box);
-    }
+    System.out.println(box);
+  }
 
-    @Test
-    public void boxTestNoObject() {
-        Box box = configAdapterPool.getAdapter("BoxExample")
-                .map(Box.class)
-                .update()
-                .getMappable(Box.class);
+  @Test
+  public void boxTestNoObject() {
+    Box box = configAdapterPool.getAdapter("BoxExample")
+        .map(Box.class)
+        .update()
+        .getMappable(Box.class);
 
-        System.out.println(box);
-    }
+    System.out.println(box);
+  }
 
 }

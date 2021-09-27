@@ -34,8 +34,8 @@ import rip.hippo.config.serialization.ConfigDeserializer;
  */
 public final class PrimitiveConfigDeserializer implements ConfigDeserializer<Object> {
 
-    @Override
-    public Object deserialize(FileConfiguration fileConfiguration, String key, Object instance) {
-        return fileConfiguration.get(key);
-    }
+  @Override
+  public Object deserialize(FileConfiguration fileConfiguration, String key, Object instance) {
+    return fileConfiguration.get(key);
+  }
 }

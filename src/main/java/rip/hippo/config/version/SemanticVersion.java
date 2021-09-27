@@ -31,57 +31,58 @@ package rip.hippo.config.version;
  */
 public final class SemanticVersion {
 
-    private final int major, minor, patch;
+  private final int major, minor, patch;
 
-    public SemanticVersion(int major, int minor, int patch) {
-        this.major = major;
-        this.minor = minor;
-        this.patch = patch;
+  public SemanticVersion(int major, int minor, int patch) {
+    this.major = major;
+    this.minor = minor;
+    this.patch = patch;
+  }
+
+  public static SemanticVersionBuilder builder() {
+    return new SemanticVersionBuilder();
+  }
+
+  public int getMajor() {
+    return major;
+  }
+
+  public int getMinor() {
+    return minor;
+  }
+
+  public int getPatch() {
+    return patch;
+  }
+
+  @Override
+  public String toString() {
+    return String.format("%d.%d.%d", major, minor, patch);
+  }
+
+  public static class SemanticVersionBuilder {
+    private int major, minor, patch;
+
+    private SemanticVersionBuilder() {
     }
 
-    public static SemanticVersionBuilder builder() {
-        return new SemanticVersionBuilder();
+    public SemanticVersionBuilder major(int major) {
+      this.major = major;
+      return this;
     }
 
-    public int getMajor() {
-        return major;
+    public SemanticVersionBuilder minor(int minor) {
+      this.minor = minor;
+      return this;
     }
 
-    public int getMinor() {
-        return minor;
+    public SemanticVersionBuilder patch(int patch) {
+      this.patch = patch;
+      return this;
     }
 
-    public int getPatch() {
-        return patch;
+    public SemanticVersion build() {
+      return new SemanticVersion(major, minor, patch);
     }
-
-    @Override
-    public String toString() {
-        return String.format("%d.%d.%d", major, minor, patch);
-    }
-
-    public static class SemanticVersionBuilder {
-        private int major, minor, patch;
-
-        private SemanticVersionBuilder(){}
-
-        public SemanticVersionBuilder major(int major) {
-            this.major = major;
-            return this;
-        }
-
-        public SemanticVersionBuilder minor(int minor) {
-            this.minor = minor;
-            return this;
-        }
-
-        public SemanticVersionBuilder patch(int patch) {
-            this.patch = patch;
-            return this;
-        }
-
-        public SemanticVersion build() {
-            return new SemanticVersion(major, minor, patch);
-        }
-    }
+  }
 }

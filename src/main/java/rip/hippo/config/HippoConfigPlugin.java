@@ -35,15 +35,15 @@ import rip.hippo.config.version.SemanticVersion;
  */
 public final class HippoConfigPlugin extends JavaPlugin {
 
-    private static final SemanticVersion PLUGIN_VERSION = SemanticVersion
-            .builder()
-            .major(1)
-            .minor(5)
-            .build();
+  private static final SemanticVersion PLUGIN_VERSION = SemanticVersion
+      .builder()
+      .major(1)
+      .minor(6)
+      .build();
 
-    @Override
-    public void onEnable() {
-        Bukkit.getLogger().info(String.format("Running Hippo Config version %s", PLUGIN_VERSION));
-        super.onEnable();
-    }
+  @Override
+  public void onEnable() {
+    Bukkit.getLogger().info(String.format("Running Hippo Config version %s", PLUGIN_VERSION));
+    super.onEnable();
+  }
 }

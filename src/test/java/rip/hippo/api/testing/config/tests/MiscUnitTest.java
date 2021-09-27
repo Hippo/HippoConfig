@@ -39,38 +39,42 @@ import java.util.Random;
  */
 public final class MiscUnitTest extends UnitTest {
 
-    @Test
-    public void collectionsTest() {
-        World world = new World("NewWorld");
-        Random random = new Random();
-        for (int i = 0; i < 5; i++) {
-            world.getPositions().add(new Vector(random.nextInt(), random.nextInt(), random.nextInt()));
-        }
-
-        configAdapterPool.getAdapter("WorldConfig")
-                .map(world)
-                .save();
-
-
-
-        World throwAway = new World("ThrowAway");
-        configAdapterPool.getAdapter("WorldConfig")
-                .map(throwAway)
-                .update();
-        System.out.println(throwAway);
+  @Test
+  public void collectionsTest() {
+    World world = new World("NewWorld");
+    Random random = new Random();
+    for (int i = 0; i < 5; i++) {
+      world.getPositions().add(new Vector(random.nextInt(), random.nextInt(), random.nextInt()));
     }
 
-    @Test
-    public void inheritanceTest() {
-        HippoEntity hippo = new HippoEntity("Bungus", new rip.hippo.api.testing.config.data.Vector(69, 69, 69), 5);
+    configAdapterPool.getAdapter("WorldConfig")
+        .map(world)
+        .save();
 
-        configAdapterPool.getAdapter("HippoConfig")
-                .map(hippo)
-                .save();
 
-        HippoEntity read = new HippoEntity();
-        configAdapterPool.getAdapter("HippoConfig")
-                .map(read)
-                .update();
-    }
+    World throwAway = new World("ThrowAway");
+    configAdapterPool.getAdapter("WorldConfig")
+        .map(throwAway)
+        .update();
+    System.out.println(throwAway);
+  }
+
+  @Test
+  public void inheritanceTest() {
+    HippoEntity hippo = new HippoEntity("Bungus", new rip.hippo.api.testing.config.data.Vector(69, 69, 69), 5);
+
+    configAdapterPool.getAdapter("HippoConfig")
+        .map(hippo)
+        .save();
+
+    HippoEntity read = new HippoEntity();
+    configAdapterPool.getAdapter("HippoConfig")
+        .map(read)
+        .update();
+  }
+
+  @Test
+  public void nonExistentConfig() {
+    System.out.println(configAdapterPool.getAdapter("Dont_Exist").exists());
+  }
 }

@@ -18,35 +18,35 @@ import rip.hippo.example.config.data.MessageMapping;
  */
 public final class ConfigExample extends JavaPlugin implements Listener {
 
-    private final ConfigAdapterPool configAdapterPool;
-    private final MessageMapping messageMapping;
+  private final ConfigAdapterPool configAdapterPool;
+  private final MessageMapping messageMapping;
 
-    public ConfigExample() {
-        this.configAdapterPool = new StandardConfigAdapterPool(getDataFolder()); // Create our config adapter pool, set the directory to the plugins data folder.
-        this.messageMapping = new MessageMapping(); // Example mappable object, this can be constructed anywhere obviously.
-        configAdapterPool.registerMappable(MessageMapping.class);
-    }
+  public ConfigExample() {
+    this.configAdapterPool = new StandardConfigAdapterPool(getDataFolder()); // Create our config adapter pool, set the directory to the plugins data folder.
+    this.messageMapping = new MessageMapping(); // Example mappable object, this can be constructed anywhere obviously.
+    configAdapterPool.registerMappable(MessageMapping.class);
+  }
 
-    @Override
-    public void onEnable() {
-        configAdapterPool.getAdapter("MyConfig") // Get the adapter for the config file `MyConfig` (datafolder/MyConfig.yml).
-                .map(messageMapping) // Set the mappable object for this adapter.
-                .update(); // update the object, note that if the config is empty the object will not be affected.
+  @Override
+  public void onEnable() {
+    configAdapterPool.getAdapter("MyConfig") // Get the adapter for the config file `MyConfig` (datafolder/MyConfig.yml).
+        .map(messageMapping) // Set the mappable object for this adapter.
+        .update(); // update the object, note that if the config is empty the object will not be affected.
 
-        Bukkit.getPluginManager().registerEvents(this, this);
+    Bukkit.getPluginManager().registerEvents(this, this);
 
-        super.onEnable();
-    }
+    super.onEnable();
+  }
 
-    @EventHandler
-    public void onJoin(PlayerJoinEvent playerJoinEvent) {
-        Player player = playerJoinEvent.getPlayer();
-        player.sendMessage(messageMapping.getLastJoined());
-        messageMapping.setLastJoined(String.format("%s was the last player to join.", player.getName()));
+  @EventHandler
+  public void onJoin(PlayerJoinEvent playerJoinEvent) {
+    Player player = playerJoinEvent.getPlayer();
+    player.sendMessage(messageMapping.getLastJoined());
+    messageMapping.setLastJoined(String.format("%s was the last player to join.", player.getName()));
 
-        Bukkit.getScheduler().runTaskAsynchronously(this, configAdapterPool
-                .getAdapter("MyConfig")
-                .map(messageMapping) // We don't necessarily have to map the object before saving, but I'm doing it just in case its not set for whatever reason.
-                ::save);
-    }
+    Bukkit.getScheduler().runTaskAsynchronously(this, configAdapterPool
+        .getAdapter("MyConfig")
+        .map(messageMapping) // We don't necessarily have to map the object before saving, but I'm doing it just in case its not set for whatever reason.
+        ::save);
+  }
 }

@@ -33,5 +33,5 @@ import org.bukkit.configuration.file.FileConfiguration;
  */
 public interface ConfigDeserializer<T> {
 
-    T deserialize(FileConfiguration fileConfiguration, String key, Object instance);
+  T deserialize(FileConfiguration fileConfiguration, String key, Object instance);
 }

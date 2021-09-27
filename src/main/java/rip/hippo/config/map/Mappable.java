@@ -29,4 +29,5 @@ package rip.hippo.config.map;
  * @version 1.0.0, 9/8/20
  * @since 1.0.0
  */
-public interface Mappable {}
+public interface Mappable {
+}

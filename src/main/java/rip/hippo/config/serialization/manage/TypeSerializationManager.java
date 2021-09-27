@@ -34,9 +34,13 @@ import rip.hippo.config.serialization.ConfigSerializer;
  * @since 1.0.0
  */
 public interface TypeSerializationManager {
-    void register(Class<?> type, ConfigSerializer configSerializer);
-    void register(Class<?> type, ConfigDeserializer<?> configDeserializer);
-    void registerMappable(Class<? extends Mappable> mappableClass);
-    ConfigSerializer getSerializer(Class<?> type);
-    ConfigDeserializer<?> getDeserializer(Class<?> type);
+  void register(Class<?> type, ConfigSerializer configSerializer);
+
+  void register(Class<?> type, ConfigDeserializer<?> configDeserializer);
+
+  void registerMappable(Class<? extends Mappable> mappableClass);
+
+  ConfigSerializer getSerializer(Class<?> type);
+
+  ConfigDeserializer<?> getDeserializer(Class<?> type);
 }

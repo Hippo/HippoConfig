@@ -43,50 +43,50 @@ import java.util.List;
  */
 public final class MappableConfigDeserializer implements ConfigDeserializer<Mappable> {
 
-    private final TypeSerializationManager typeSerializationManager;
+  private final TypeSerializationManager typeSerializationManager;
 
-    public MappableConfigDeserializer(TypeSerializationManager typeSerializationManager) {
-        this.typeSerializationManager = typeSerializationManager;
+  public MappableConfigDeserializer(TypeSerializationManager typeSerializationManager) {
+    this.typeSerializationManager = typeSerializationManager;
+  }
+
+  @Override
+  public Mappable deserialize(FileConfiguration fileConfiguration, String key, Object instance) {
+    if (!(instance instanceof Mappable)) {
+      throw new IllegalArgumentException(String.format("Tried to pass %s as a mappable object.", instance));
+    }
+    List<Field> fields = new LinkedList<>();
+    Class<?> current = instance.getClass();
+    while (Mappable.class.isAssignableFrom(current)) {
+      fields.addAll(Arrays.asList(current.getDeclaredFields()));
+      current = current.getSuperclass();
     }
 
-    @Override
-    public Mappable deserialize(FileConfiguration fileConfiguration, String key, Object instance) {
-        if (!(instance instanceof Mappable)) {
-            throw new IllegalArgumentException(String.format("Tried to pass %s as a mappable object.", instance));
+    for (Field field : fields) {
+      try {
+        if (Modifier.isTransient(field.getModifiers())) {
+          continue;
         }
-        List<Field> fields = new LinkedList<>();
-        Class<?> current = instance.getClass();
-        while (Mappable.class.isAssignableFrom(current)) {
-            fields.addAll(Arrays.asList(current.getDeclaredFields()));
-            current = current.getSuperclass();
+        if (Modifier.isFinal(field.getModifiers())) {
+          Field modifiers = Field.class.getDeclaredField("modifiers");
+          modifiers.setAccessible(true);
+          modifiers.setInt(field, field.getModifiers() & ~Modifier.FINAL);
         }
 
-        for (Field field : fields) {
-            try {
-                if (Modifier.isTransient(field.getModifiers())) {
-                    continue;
-                }
-                if (Modifier.isFinal(field.getModifiers())) {
-                    Field modifiers = Field.class.getDeclaredField("modifiers");
-                    modifiers.setAccessible(true);
-                    modifiers.setInt(field, field.getModifiers() & ~Modifier.FINAL);
-                }
-
-                boolean accessible = field.isAccessible();
-                field.setAccessible(true);
+        boolean accessible = field.isAccessible();
+        field.setAccessible(true);
 
 
-                SerializedKey serializedKey = field.getAnnotation(SerializedKey.class);
-                String keyField = serializedKey == null ? field.getName() : serializedKey.value();
+        SerializedKey serializedKey = field.getAnnotation(SerializedKey.class);
+        String keyField = serializedKey == null ? field.getName() : serializedKey.value();
 
-                ConfigDeserializer<?> deserializer = typeSerializationManager.getDeserializer(field.getType());
-                field.set(instance, deserializer.deserialize(fileConfiguration, (key.isEmpty() ? "" : key + ".") + keyField, field.get(instance)));
+        ConfigDeserializer<?> deserializer = typeSerializationManager.getDeserializer(field.getType());
+        field.set(instance, deserializer.deserialize(fileConfiguration, (key.isEmpty() ? "" : key + ".") + keyField, field.get(instance)));
 
-                field.setAccessible(accessible);
-            } catch (ReflectiveOperationException e) {
-                e.printStackTrace();
-            }
-        }
-        return ((Mappable) instance);
+        field.setAccessible(accessible);
+      } catch (ReflectiveOperationException e) {
+        e.printStackTrace();
+      }
     }
+    return ((Mappable) instance);
+  }
 }

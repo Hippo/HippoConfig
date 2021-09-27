@@ -33,11 +33,11 @@ import rip.hippo.config.map.Mappable;
  */
 public class Entity implements Mappable {
 
-    private final String name;
-    private final Vector location;
+  private final String name;
+  private final Vector location;
 
-    public Entity(String name, Vector location) {
-        this.name = name;
-        this.location = location;
-    }
+  public Entity(String name, Vector location) {
+    this.name = name;
+    this.location = location;
+  }
 }

@@ -34,41 +34,41 @@ import rip.hippo.config.map.Mappable;
  */
 public final class Box implements Mappable {
 
-    @SerializedKey("vec1")
-    private Vector firstCorner;
-    @SerializedKey("vec2")
-    private Vector secondCorner;
+  @SerializedKey("vec1")
+  private Vector firstCorner;
+  @SerializedKey("vec2")
+  private Vector secondCorner;
 
-    public Box() {
-        this(new Vector(), new Vector());
-    }
+  public Box() {
+    this(new Vector(), new Vector());
+  }
 
-    public Box(Vector firstCorner, Vector secondCorner) {
-        this.firstCorner = firstCorner;
-        this.secondCorner = secondCorner;
-    }
+  public Box(Vector firstCorner, Vector secondCorner) {
+    this.firstCorner = firstCorner;
+    this.secondCorner = secondCorner;
+  }
 
-    public Vector getFirstCorner() {
-        return firstCorner;
-    }
+  public Vector getFirstCorner() {
+    return firstCorner;
+  }
 
-    public void setFirstCorner(Vector firstCorner) {
-        this.firstCorner = firstCorner;
-    }
+  public void setFirstCorner(Vector firstCorner) {
+    this.firstCorner = firstCorner;
+  }
 
-    public Vector getSecondCorner() {
-        return secondCorner;
-    }
+  public Vector getSecondCorner() {
+    return secondCorner;
+  }
 
-    public void setSecondCorner(Vector secondCorner) {
-        this.secondCorner = secondCorner;
-    }
+  public void setSecondCorner(Vector secondCorner) {
+    this.secondCorner = secondCorner;
+  }
 
-    @Override
-    public String toString() {
-        return "Box{" +
-                "firstCorner=" + firstCorner +
-                ", secondCorner=" + secondCorner +
-                '}';
-    }
+  @Override
+  public String toString() {
+    return "Box{" +
+        "firstCorner=" + firstCorner +
+        ", secondCorner=" + secondCorner +
+        '}';
+  }
 }

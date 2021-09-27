@@ -24,9 +24,9 @@
 
 package rip.hippo.api.testing.config;
 
+import rip.hippo.api.testing.config.data.*;
 import rip.hippo.config.adapter.pool.ConfigAdapterPool;
 import rip.hippo.config.adapter.pool.impl.StandardConfigAdapterPool;
-import rip.hippo.api.testing.config.data.*;
 
 import java.io.File;
 
@@ -37,14 +37,14 @@ import java.io.File;
  */
 public abstract class UnitTest {
 
-    protected final ConfigAdapterPool configAdapterPool;
+  protected final ConfigAdapterPool configAdapterPool;
 
-    public UnitTest() {
-        this.configAdapterPool = new StandardConfigAdapterPool(new File("src/test/resources"));
-        configAdapterPool.registerMappable(Box.class);
-        configAdapterPool.registerMappable(Vector.class);
-        configAdapterPool.registerMappable(World.class);
-        configAdapterPool.registerMappable(Entity.class);
-        configAdapterPool.registerMappable(HippoEntity.class);
-    }
+  public UnitTest() {
+    this.configAdapterPool = new StandardConfigAdapterPool(new File("src/test/resources"));
+    configAdapterPool.registerMappable(Box.class);
+    configAdapterPool.registerMappable(Vector.class);
+    configAdapterPool.registerMappable(World.class);
+    configAdapterPool.registerMappable(Entity.class);
+    configAdapterPool.registerMappable(HippoEntity.class);
+  }
 }
